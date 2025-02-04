@@ -5,8 +5,11 @@ const Facture = require('../models/Facture');
 // ✅ Créer une facture avec un numéro incrémental
 router.post('/', async (req, res) => {
     try {
-        const lastFacture = await Facture.findOne().sort({ FactureNumber: -1 });
-        const nextFactureNumber = lastFacture ? lastFacture.FactureNumber + 1 : 1;
+        // ✅ Correction : respect de la casse correcte
+        const lastFacture = await Facture.findOne().sort({ factureNumber: -1 });
+
+        const nextFactureNumber = lastFacture ? lastFacture.factureNumber + 1 : 1;
+
 
         const montantTotal = req.body.produits.reduce((total, produit) => {
             return total + (produit.prixUnitaire * produit.quantite);
